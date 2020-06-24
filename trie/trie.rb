@@ -20,7 +20,7 @@ class Trie
 
   def add_node(value, trie)
     Node.new(value).tap do |new_node|
-      new_node.type = 'dynamic' if value.first == ':'
+      new_node.type = 'dynamic' if value[0] == ':'
       trie << new_node
     end
   end
