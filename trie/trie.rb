@@ -19,6 +19,9 @@ class Trie
   end
 
   def add_node(attributes, trie)
-    Node.new(attributes).tap { |new_node| trie << new_node }
+    Node.new(attributes).tap do |new_node|
+      new_node.type = 'dynamic' if attributes[0] == ':'
+      trie << new_node
+    end
   end
 end
