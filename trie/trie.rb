@@ -14,13 +14,13 @@ class Trie
     base.name = route
   end
 
-  def add_attributes(attributes, trie)
+  def add_attributes(value, trie)
     trie.find { |n| n.value == attributes } || add_node(attributes, trie)
   end
 
-  def add_node(attributes, trie)
-    Node.new(attributes).tap do |new_node|
-      new_node.type = 'dynamic' if attributes[0] == ':'
+  def add_node(value, trie)
+    Node.new(value).tap do |new_node|
+      new_node.type = 'dynamic' if value[0] == ':'
       trie << new_node
     end
   end
