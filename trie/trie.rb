@@ -15,7 +15,7 @@ class Trie
   end
 
   def add_attributes(value, trie)
-    trie.find { |n| n.value == attributes } || add_node(attributes, trie)
+    trie.find { |n| n.value == value } || add_node(value, trie)
   end
 
   def add_node(value, trie)
