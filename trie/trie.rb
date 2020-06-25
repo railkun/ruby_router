@@ -9,7 +9,7 @@ class Trie
 
   def add_route(route)
     levels = route.split('/').reject { |e| e.to_s.empty? }
-    base    = @root
+    base   = @root
     levels.each { |level| base = add_attributes(level, base.children) }
     base.name = route
   end
