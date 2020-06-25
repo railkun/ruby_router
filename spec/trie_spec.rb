@@ -17,7 +17,9 @@ RSpec.describe Trie do
     context 'add node' do
       let(:node) { Node.new('player') }
 
-      it { expect( subject.add_node('player', []).type ).eql?(node) }
+      it { expect( subject.add_node('id', node.children)).eql?(node.children[0]) }
+
+      it { expect( subject.add_node('player', [])).eql?(node) }
     end
 
     context 'if value with :' do
