@@ -14,6 +14,12 @@ RSpec.describe Trie do
 
   describe '.add_node' do
 
+    context 'add node' do
+      let(:node) { Node.new('player') }
+
+      it { expect( subject.add_node('player', []).type ).eql?(node) }
+    end
+
     context 'if value with :' do
       it { expect( subject.add_node(':id', []).type ).eql?('dynamic') }
     end
