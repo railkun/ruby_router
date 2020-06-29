@@ -8,7 +8,7 @@ RSpec.describe Trie do
     let(:player_info) { '/player/:id/info' }
 
     context 'if route add correct' do
-      it { expect( subject.add_route(player_info) ).eql?('/player/:id/info') }
+      it { expect( subject.add_route(player_info) ).to eq('/player/:id/info') }
     end
   end
 
@@ -17,17 +17,34 @@ RSpec.describe Trie do
     context 'add node' do
       let(:node) { Node.new('player') }
 
-      it { expect( subject.add_node('id', node.children)).eql?(node.children[0]) }
+      it { expect( subject.add_node('id', node.children)).to eq(node.children[0]) }
 
       it { expect( subject.add_node('player', [])).eql?(node) }
     end
 
     context 'if value with :' do
-      it { expect( subject.add_node(':id', []).type ).eql?('dynamic') }
+      it { expect( subject.add_node(':id', []).type ).to eq('dynamic') }
     end
 
     context 'if value without :' do
-      it { expect( subject.add_node('id', []).type ).eql?('static') }
+      it { expect( subject.add_node('id', []).type ).to eq('static') }
+    end
+  end
+
+  describe '.find' do
+    before do
+      @trie = Trie.new
+      @trie.add_route('/player/:id/info')
+    end
+
+    context 'find route if route exist' do
+      it { expect( @trie.find('/player/:id/info').name ).to eq('/player/:id/info') }
+
+      it { expect( @trie.find('/player/:id/info').value ).to eq('info') }
+    end
+
+    context 'find route if route not exist' do
+      it { expect( @trie.find('/player/:id') ).to eq('This route not exist') }
     end
   end
 end
