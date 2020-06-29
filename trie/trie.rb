@@ -24,4 +24,24 @@ class Trie
       trie << new_node
     end
   end
+
+  def find_route(route)
+    levels = route.split('/').reject { |e| e.to_s.empty? }
+    base   = @root
+    route_found =
+    levels.all? { |level| base = find_attributes(level, base.children) }
+
+    yield route_found, base if block_given?
+    base
+  end
+
+  def find_attributes(value, trie)
+    trie.find { |n| n.value == value }
+  end
+
+  def find(route)
+    find_route(route) do |found, base|
+      return 'This route not exist' unless found && base.name.empty? == false
+    end
+  end
 end
