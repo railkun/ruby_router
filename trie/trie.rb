@@ -7,8 +7,12 @@ class Trie
     @root = Node.new("/")
   end
 
+  def levels_split(route)
+    route.split('/').reject { |e| e.to_s.empty? }
+  end
+
   def add_route(route)
-    levels = route.split('/').reject { |e| e.to_s.empty? }
+    levels = levels_split(route)
     base   = @root
     levels.each { |level| base = add_attributes(level, base.children) }
     base.name = route
@@ -26,7 +30,7 @@ class Trie
   end
 
   def find_route(route)
-    levels = route.split('/').reject { |e| e.to_s.empty? }
+    levels = levels_split(route)
     base   = @root
     route_found =
     levels.all? { |level| base = find_attributes(level, base.children) }
