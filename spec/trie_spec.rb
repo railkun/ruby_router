@@ -23,11 +23,11 @@ RSpec.describe Trie do
     end
 
     context 'if value with :' do
-      it { expect( subject.add_node(':id', []).type ).to eq('dynamic') }
+      it { expect( subject.add_node(':id', []).type ).to eq(1) }
     end
 
     context 'if value without :' do
-      it { expect( subject.add_node('id', []).type ).to eq('static') }
+      it { expect( subject.add_node('id', []).type ).to eq(0) }
     end
   end
 
@@ -35,12 +35,23 @@ RSpec.describe Trie do
     before do
       @trie = Trie.new
       @trie.add_route('/player/:id/info')
+      @trie.add_route('/player/id/info')
     end
 
-    context 'find route if route exist' do
-      it { expect( @trie.find('/player/:id/info').name ).to eq('/player/:id/info') }
+    context 'find route if route exist and type DYNAMIC' do
+      it { expect( @trie.find('/player/1/info').name ).to eq('/player/:id/info') }
 
-      it { expect( @trie.find('/player/:id/info').value ).to eq('info') }
+      it { expect( @trie.find('/player/1/info').value ).to eq('info') }
+
+      it { expect( @trie.find('/player/1/info').dynamic_value ).to eq({':id' => '1'}) }
+    end
+
+    context 'find route if route exist and type STATIC' do
+      it { expect( @trie.find('/player/id/info').name ).to eq('/player/id/info') }
+
+      it { expect( @trie.find('/player/id/info').value ).to eq('info') }
+
+      it { expect( @trie.find('/player/id/info').dynamic_value ).to eq({}) }
     end
 
     context 'find route if route not exist' do
