@@ -14,4 +14,8 @@ class Node
     @type          = STATIC
     @type          = DYNAMIC if value[0] == ':'
   end
+
+  def self.dynamic?(type)
+    type == DYNAMIC
+  end
 end
