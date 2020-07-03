@@ -1,14 +1,19 @@
 require '../trie/trie'
 
+require_relative '../exceptions/route_must_be_unique'
+require_relative '../exceptions/route_not_exist'
+
 RSpec.describe Trie do
   subject { described_class.new }
 
   describe '.add_route' do
 
-    let(:player_info) { '/player/:id/info' }
-
     context 'if route add correct' do
-      it { expect( subject.add_route(player_info) ).to eq('/player/:id/info') }
+      it { expect( subject.add_route('/player/:id/info') ).to eq('/player/:id/info') }
+    end
+
+    context 'route element must be unique' do
+      it { expect{ subject.add_route('/player/:id/info/:id') }.to raise_error(RouteMustBeUnique) }
     end
   end
 
@@ -51,7 +56,7 @@ RSpec.describe Trie do
     end
 
     context 'find route if route not exist' do
-      it { expect( @trie.find('/player/:id') ).to eq('This route not exist') }
+      it { expect{ @trie.find('/player/:id') }.to raise_error(RouteNotExist) }
     end
   end
 end
