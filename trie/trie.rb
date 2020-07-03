@@ -1,5 +1,7 @@
 require 'pry'
 
+require_relative '../exceptions/route_must_be_unique'
+require_relative '../exceptions/route_not_exist'
 require_relative 'node'
 require_relative 'response'
 
@@ -12,8 +14,15 @@ class Trie
     route.split('/').reject { |e| e.to_s.empty? }
   end
 
+  def valid?(levels)
+    levels.find_all {|level| levels.count(level) > 1}.empty? == false
+  end
+
   def add_route(route)
     levels                     = levels_split(route)
+
+    raise RouteMustBeUnique if valid?(levels)
+
     base                       = @root
     levels.each { |level| base = add_attributes(level, base.children) }
     base.name                  = route
@@ -54,7 +63,7 @@ class Trie
 
   def find(route)
     find_route(route) do |found, base|
-      return 'This route not exist' unless found && base.name.empty? == false
+      raise RouteNotExist unless found && base.name.empty? == false
     end
   end
 end
