@@ -7,11 +7,11 @@ class Node
   attr_accessor :name, :type, :dynamic_value
 
   def initialize(value)
-    @value = value
-    @name = ''
-    @children = []
     @dynamic_value = {}
-    @type = STATIC
-    @type = DYNAMIC if value[0] == ':'
+    @children      = []
+    @value         = value
+    @name          = ''
+    @type          = STATIC
+    @type          = DYNAMIC if value[0] == ':'
   end
 end

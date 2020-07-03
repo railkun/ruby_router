@@ -39,17 +39,13 @@ RSpec.describe Trie do
     end
 
     context 'find route if route exist and type DYNAMIC' do
-      it { expect( @trie.find('/player/1/info').name ).to eq('/player/:id/info') }
-
-      it { expect( @trie.find('/player/1/info').value ).to eq('info') }
+      it { expect( @trie.find('/player/1/info').route ).to eq('/player/:id/info') }
 
       it { expect( @trie.find('/player/1/info').dynamic_value ).to eq({':id' => '1'}) }
     end
 
     context 'find route if route exist and type STATIC' do
-      it { expect( @trie.find('/player/id/info').name ).to eq('/player/id/info') }
-
-      it { expect( @trie.find('/player/id/info').value ).to eq('info') }
+      it { expect( @trie.find('/player/id/info').route ).to eq('/player/id/info') }
 
       it { expect( @trie.find('/player/id/info').dynamic_value ).to eq({}) }
     end

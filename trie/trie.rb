@@ -1,11 +1,11 @@
 require 'pry'
 
 require_relative 'node'
+require_relative 'response'
 
 class Trie
   def initialize
     @root = Node.new("/")
-    @dynamic_value = {}
   end
 
   def levels_split(route)
@@ -13,10 +13,10 @@ class Trie
   end
 
   def add_route(route)
-    levels = levels_split(route)
-    base   = @root
+    levels                     = levels_split(route)
+    base                       = @root
     levels.each { |level| base = add_attributes(level, base.children) }
-    base.name = route
+    base.name                  = route
   end
 
   def add_attributes(value, trie)
@@ -28,20 +28,23 @@ class Trie
   end
 
   def find_route(route)
-    levels = levels_split(route)
-    base   = @root
-    route_found = levels.all? { |level| base = find_attributes(level, base.children) }
+    levels             = levels_split(route)
+    base               = @root
+    dynamic_value      = {}
+    route_found        = levels.all? { |level| base = find_attributes(level, base.children, dynamic_value) }
 
     yield route_found, base if block_given?
-    base.dynamic_value = @dynamic_value
-    @dynamic_value = {}
-    base
+    response(base.name, dynamic_value)
   end
 
-  def find_attributes(value, trie)
+  def response(route, dynamic_value)
+    Response.new(route, dynamic_value)
+  end
+
+  def find_attributes(value, trie, dynamic_value)
     trie.sort_by{ |n| n.type }.find do |n|
       if n.type == Node::DYNAMIC
-        @dynamic_value[n.value] = value
+        dynamic_value[n.value] = value
         true
       else
         n.value == value
