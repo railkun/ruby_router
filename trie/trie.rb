@@ -15,7 +15,7 @@ class Trie
   end
 
   def valid?(levels)
-    levels.find_all {|level| levels.count(level) > 1}.empty? == false
+    levels.find_all {|level| levels.count(level) > 1}.any?
   end
 
   def add_route(route)
@@ -52,7 +52,7 @@ class Trie
 
   def find_attributes(value, trie, dynamic_value)
     trie.sort_by{ |n| n.type }.find do |n|
-      if Node.dynamic?(n.type)
+      if n.dynamic?(n.type)
         dynamic_value[n.value] = value
         true
       else
