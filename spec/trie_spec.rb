@@ -58,5 +58,9 @@ RSpec.describe Trie do
     context 'find route if route not exist' do
       it { expect{ @trie.find('/player/:id') }.to raise_error(RouteNotExist) }
     end
+
+    context 'find route if route not exist' do
+      it { expect{ @trie.find('/team/player/:id') }.to raise_error(RouteNotExist) }
+    end
   end
 end
