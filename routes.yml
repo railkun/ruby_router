@@ -1,0 +1,2 @@
+player: /player/:id
+user: /user/:id

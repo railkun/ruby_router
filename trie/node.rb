@@ -4,18 +4,17 @@ class Node
 
   attr_reader :value, :children
 
-  attr_accessor :name, :type, :dynamic_value
+  attr_accessor :method, :route, :type
 
   def initialize(value)
-    @dynamic_value = {}
     @children      = []
     @value         = value
-    @name          = ''
-    @type          = STATIC
-    @type          = DYNAMIC if value[0] == ':'
+    @method        = ''
+    @route         = ''
+    @type          = value[0] == ':' ? DYNAMIC : STATIC
   end
 
-  def dynamic?(type)
-    type == DYNAMIC
+  def dynamic?
+    @type == DYNAMIC
   end
 end
