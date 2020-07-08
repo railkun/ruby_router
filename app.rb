@@ -1,12 +1,12 @@
 require 'yaml'
+require 'ruby_routes_trie'
 
-require_relative 'trie/trie'
 require_relative 'controller/controller'
 require_relative 'exceptions/controller_not_exist'
 
 class App
   def initialize
-    @trie = Trie.new
+    @trie = RubyRoutesTrie.new
   end
 
   def create_trie
