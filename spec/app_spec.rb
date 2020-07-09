@@ -1,5 +1,4 @@
-require '../app'
-
+require_relative '../app'
 require_relative '../exceptions/controller_not_exist'
 
 RSpec.describe App do

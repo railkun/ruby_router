@@ -1,2 +1,4 @@
-player: /player/:id
-user: /user/:id
+player#index: /player
+player#show: /players/:id
+user#show: /users/:id
+index#index: /
