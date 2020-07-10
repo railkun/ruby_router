@@ -6,7 +6,6 @@ RSpec.describe App do
   describe '.find' do
     before do
       @app = App.new
-      @app.create_trie
     end
 
     context 'if method exist' do
