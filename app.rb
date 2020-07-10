@@ -1,6 +1,5 @@
 Dir["controller/*.rb"].each {|file| require_relative file }
 
-require 'yaml'
 require 'ruby_routes_trie'
 require 'pry'
 
@@ -17,14 +16,12 @@ class App
     [status, headers, body]
   end
 
-  def initialize
+  def initialize(routes)
     @trie = RubyRoutesTrie.new
+
     routes.each do |route|
       @trie.add_route(route[0], route[1])
     end
-  end
-
-  def create_trie
   end
 
   def find(route)
@@ -46,7 +43,7 @@ class App
     raise ControllerNotExist if !Object.const_get("#{response_method[:class]}Controller")
 
     clazz = Object.const_get("#{response_method[:class]}Controller")
-    
+
     if clazz.method_defined?(response_method[:action]) && !response.dynamic_value.empty?
       clazz.new.send(response_method[:action], response.dynamic_value)
     elsif clazz.method_defined?(response_method[:action]) && response.dynamic_value.empty?
@@ -54,9 +51,5 @@ class App
     else
       raise ActionNotExist
     end
-  end
-
-  def routes
-    YAML.load(File.read("routes.yml"))
   end
 end

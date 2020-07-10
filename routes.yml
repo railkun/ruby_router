@@ -1,4 +1,6 @@
-player#index: /player
-player#show: /players/:id
-user#show: /users/:id
-index#index: /
+players#index: /players
+players#show: /players/:id
+users#index: /users
+users#show: /users/:id
+home#index: /
+matches#index: /matches
