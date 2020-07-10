@@ -42,13 +42,15 @@ class App
 
   def controller(response)
     response_method = pars_response_method(response.method)
-    binding.pry
+
     raise ControllerNotExist if !Object.const_get("#{response_method[:class]}Controller")
 
-    clazz = eval "#{response_method[:class]}Controller"
-
-    if clazz.method_defined?(response_method[:action])
+    clazz = Object.const_get("#{response_method[:class]}Controller")
+    
+    if clazz.method_defined?(response_method[:action]) && !response.dynamic_value.empty?
       clazz.new.send(response_method[:action], response.dynamic_value)
+    elsif clazz.method_defined?(response_method[:action]) && response.dynamic_value.empty?
+      clazz.new.send(response_method[:action])
     else
       raise ActionNotExist
     end

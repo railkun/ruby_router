@@ -1,5 +1,5 @@
 class IndexController
-  def index(index)
+  def index
     'index'
   end
 end
