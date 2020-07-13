@@ -2,6 +2,7 @@ Dir["controller/*.rb"].each {|file| require_relative file }
 
 require 'ruby_routes_trie'
 require 'pry'
+require 'yaml'
 
 require_relative 'exceptions/controller_not_exist'
 require_relative 'exceptions/action_not_exist'
@@ -11,12 +12,12 @@ class App
 
     status  = 200
     headers = { "Content-Type" => "text/html" }
-    body    = [find(env["REQUEST_PATH"])]
+    body    = [find(env["PATH_INFO"])]
 
     [status, headers, body]
   end
 
-  def initialize(routes)
+  def initialize
     @trie = RubyRoutesTrie.new
 
     routes.each do |route|
@@ -40,8 +41,6 @@ class App
   def controller(response)
     response_method = pars_response_method(response.method)
 
-    raise ControllerNotExist if !Object.const_get("#{response_method[:class]}Controller")
-
     clazz = Object.const_get("#{response_method[:class]}Controller")
 
     if clazz.method_defined?(response_method[:action]) && !response.dynamic_value.empty?
@@ -51,5 +50,12 @@ class App
     else
       raise ActionNotExist
     end
+
+    rescue NameError
+      raise ControllerNotExist
+  end
+
+  def routes
+    YAML.load(File.read("routes.yml"))
   end
 end
