@@ -31,7 +31,43 @@ describe App do
   context 'get to /users' do
     let(:response) { get '/users' }
 
+    it { expect(response.status).to eq 200 }
     it { expect(response.body).to include 'All users' }
+  end
+
+  context 'post to /users' do
+    let(:response) { post '/users' }
+
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to include 'Create user' }
+  end
+
+  context 'get to /users/new' do
+    let(:response) { get '/users/new' }
+
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to include 'Form create new user' }
+  end
+
+  context 'get to /users/:id/edit' do
+    let(:response) { get '/users/1/edit' }
+
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to include "Edit user id:#{id}" }
+  end
+
+  context 'patch to /users/:id' do
+    let(:response) { patch '/users/1' }
+
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to include "Update user id:#{id}" }
+  end
+
+  context 'delete to /users/:id' do
+    let(:response) { delete '/users/1' }
+
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to include "Delete user id:#{id}" }
   end
 
   context 'get to /matches' do

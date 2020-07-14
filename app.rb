@@ -12,7 +12,7 @@ class App
 
     status  = 200
     headers = { "Content-Type" => "text/html" }
-    body    = [find(env["PATH_INFO"])]
+    body    = [find("#{env["REQUEST_METHOD"]}:#{env["PATH_INFO"]}")]
 
     [status, headers, body]
   end

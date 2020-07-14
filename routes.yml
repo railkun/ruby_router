@@ -1,6 +1,11 @@
-players#index: /players
-players#show: /players/:id
-users#index: /users
-users#show: /users/:id
-home#index: /
-matches#index: /matches
+players#index: GET:/players
+players#show:  GET:/players/:id
+users#index:   GET:/users
+users#show:    GET:/users/:id
+users#create:  POST:/users
+users#new:     GET:/users/new
+users#edit:	   GET:/users/:id/edit
+users#update:  PATCH:/users/:id
+users#destroy: DELETE:/users/:id
+home#index:    GET:/
+matches#index: GET:/matches
