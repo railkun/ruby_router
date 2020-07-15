@@ -51,8 +51,8 @@ class App
       raise ActionNotExist
     end
 
-    rescue NameError
-      raise ControllerNotExist
+  rescue NameError
+    raise ControllerNotExist
   end
 
   def routes
