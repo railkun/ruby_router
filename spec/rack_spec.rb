@@ -8,6 +8,14 @@ describe App do
   let(:app) { App.new }
   let(:id)  { 1 }
 
+  context 'get to home page' do
+    let(:response) { get '/' }
+
+    it { expect(response.status).to eq 200 }
+    it { expect(response.body).to include 'Home Sweet Home' }
+  end
+
+
   context 'get to /players/:id' do
     let(:response) { get '/players/1' }
 
@@ -25,14 +33,14 @@ describe App do
     let(:response) { get 'users/1' }
 
     it { expect(response.status).to eq 200 }
-    it { expect(response.body).to include "User id is #{id}" }
+    it { expect(response.body).to include 'User name: Alex' }
   end
 
   context 'get to /users' do
     let(:response) { get '/users' }
 
     it { expect(response.status).to eq 200 }
-    it { expect(response.body).to include 'All users' }
+    it { expect(response.body).to include 'This is all users:' }
   end
 
   context 'post to /users' do

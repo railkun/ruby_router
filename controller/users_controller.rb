@@ -1,10 +1,20 @@
+require 'haml'
+
 class UsersController
   def index
-    'All users'
+    template = File.read(File.join("views/users/index.haml"))
+
+    users
+
+    Haml::Engine.new(template).render(binding)
   end
 
   def show(params)
-    "User id is #{params[":id"]}"
+    template = File.read(File.join("views/users/show.haml"))
+
+    user_name = users[params[":id"].to_i - 1]
+
+    Haml::Engine.new(template).render(binding)
   end
 
   def new
@@ -25,5 +35,15 @@ class UsersController
 
   def destroy(params)
     "Delete user id:#{params[":id"]}"
+  end
+
+  private
+
+  def users
+    users = [
+      "Alex",
+      "Steve",
+      "John"
+    ]
   end
 end

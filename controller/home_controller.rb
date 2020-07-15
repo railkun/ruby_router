@@ -1,5 +1,9 @@
+require 'haml'
+
 class HomeController
   def index
-    'Home Sweet Home'
+    template = File.read(File.join("views/home/index.haml"))
+
+    Haml::Engine.new(template).render(binding)
   end
 end

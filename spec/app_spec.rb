@@ -18,11 +18,11 @@ RSpec.describe App do
     end
 
     context 'if class and method exist' do
-      it { expect( @app.find('GET:/users') ).to eq('All users') }
+      it { expect( @app.find('GET:/users') ).to include 'This is all users:' }
     end
 
     context 'if class and method exist' do
-      it { expect( @app.find("GET:/users/#{id}") ).to eq("User id is #{id}") }
+      it { expect( @app.find("GET:/users/#{id}") ).to include 'User name: Alex' }
     end
 
     context 'if class and method exist' do
