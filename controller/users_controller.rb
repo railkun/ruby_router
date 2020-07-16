@@ -1,6 +1,10 @@
 require 'haml'
-
+require 'pry'
 class UsersController
+  def initialize(params)
+    @params = params
+  end
+
   def index
     template = File.read(File.join("views/users/index.haml"))
 
@@ -12,17 +16,20 @@ class UsersController
   def show(params)
     template = File.read(File.join("views/users/show.haml"))
 
-    user_name = users[params[":id"].to_i - 1]
+    user_name = all_users[params[":id"].to_i - 1]
 
     Haml::Engine.new(template).render(binding)
   end
 
   def new
-    'Form create new user'
+    template = File.read(File.join("views/users/new.haml"))
+
+    Haml::Engine.new(template).render(binding)
   end
 
   def create
-    'Create user'
+    add_users(@params['name'])
+    index
   end
 
   def edit(params)
@@ -40,10 +47,12 @@ class UsersController
   private
 
   def users
-    users = [
-      "Alex",
-      "Steve",
-      "John"
-    ]
+    File.read("users.txt").split("\n")
+  end
+
+  def add_users(name)
+    File.open("users.txt", "a+") do |file|
+      file.puts(name)
+    end
   end
 end

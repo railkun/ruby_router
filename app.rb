@@ -10,10 +10,11 @@ require_relative 'exceptions/action_not_exist'
 class App
   def call(env)
 
-    status  = 200
-    headers = { "Content-Type" => "text/html" }
-    body    = [find("#{env["REQUEST_METHOD"]}:#{env["PATH_INFO"]}")]
-
+    status    = 200
+    headers   = { "Content-Type" => "text/html" }
+    request   = Rack::Request.new(env)
+    @response = request.POST if request.post?
+    body      = [find("#{env["REQUEST_METHOD"]}:#{env["PATH_INFO"]}")]
     [status, headers, body]
   end
 
@@ -44,9 +45,9 @@ class App
     clazz = Object.const_get("#{response_method[:class]}Controller")
 
     if clazz.method_defined?(response_method[:action]) && !response.dynamic_value.empty?
-      clazz.new.send(response_method[:action], response.dynamic_value)
+      clazz.new(@response).send(response_method[:action], response.dynamic_value)
     elsif clazz.method_defined?(response_method[:action]) && response.dynamic_value.empty?
-      clazz.new.send(response_method[:action])
+      clazz.new(@response).send(response_method[:action])
     else
       raise ActionNotExist
     end

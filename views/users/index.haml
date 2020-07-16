@@ -6,3 +6,5 @@
     %ul
       - users.each do |user|
         %li= user
+    %form{:action => "/users/new"}
+      %input{:type => "submit", :value => "Add new users"}/
