@@ -1,5 +1,5 @@
 require 'haml'
-require 'pry'
+
 class UsersController
   def initialize(params)
     @params = params
