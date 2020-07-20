@@ -33,8 +33,6 @@ class LoginsController
     {
       exp: Time.now.to_i + 60 * 60,
       iat: Time.now.to_i,
-      iss: '/users/new',
-      scopes: ['add_users'],
       user: {
         username: username
       }

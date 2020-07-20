@@ -9,14 +9,16 @@ require 'yaml'
 
 require_relative 'exceptions/controller_not_exist'
 require_relative 'exceptions/action_not_exist'
+require_relative 'exceptions/401'
+require_relative 'exceptions/403'
 
 class App
   def call(env)
-
+    @response = Rack::Utils.parse_nested_query(env["QUERY_STRING"])
     status    = 200
     headers   = { "Content-Type" => "text/html" }
     request   = Rack::Request.new(env)
-    @response = request.POST if request.post?
+    @response.merge!(request.POST) if request.post?
     body      = [find("#{env["REQUEST_METHOD"]}:#{env["PATH_INFO"]}")]
     [status, headers, body]
   end

@@ -1,17 +1,19 @@
 class UsersController
   def initialize(params)
     @params   = params
+
+    @params['token'] ? decoded_token : raise_error
   end
 
   def index
-    template = File.read(File.join("views/users/index.haml"))
+    template  = File.read(File.join("views/users/index.haml"))
 
     users
 
     Haml::Engine.new(template).render(binding)
   end
 
-  def show(params)
+  def usersshow(params)
     template  = File.read(File.join("views/users/show.haml"))
 
     user_name = all_users[params[":id"].to_i - 1]
@@ -43,7 +45,24 @@ class UsersController
   end
 
   private
-  
+
+  def decoded_token
+    decoded_token = JWT.decode @params['token'], 'my$ecretK3y', true, { algorithm: 'HS256' }
+
+  rescue JWT::DecodeError
+    raise Error_401.new 'A token must be passed.'
+  rescue JWT::ExpiredSignature
+    raise Error_403.new 'The token has expired.'
+  rescue JWT::InvalidIssuerError
+    raise Error_403.new 'The token does not have a valid issuer.'
+  rescue JWT::InvalidIatError
+    raise Error_403.new 'The token does not have a valid "issued at" time.'
+  end
+
+  def raise_error
+    raise Error_401.new 'A token must be passed.'
+  end
+
   def users
     File.read("users.txt").split("\n")
   end
