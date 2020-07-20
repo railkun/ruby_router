@@ -1,5 +1,8 @@
 Dir["controller/*.rb"].each {|file| require_relative file }
 
+require 'haml'
+require 'json'
+require 'jwt'
 require 'ruby_routes_trie'
 require 'pry'
 require 'yaml'

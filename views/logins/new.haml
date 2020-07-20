@@ -1,0 +1,9 @@
+%p
+  %b Login:
+%form{ :action => "/logins", :method => "post" }
+  %p User name:
+  %input{ :name => "user_name", :type => "text", :value => @user_name }/
+  %p Password:
+  %input{ :name => "password", :type => "text", :value => @password }/
+  %p
+  %input{ :type => "submit" }/

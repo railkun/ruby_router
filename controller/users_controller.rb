@@ -1,8 +1,6 @@
-require 'haml'
-
 class UsersController
   def initialize(params)
-    @params = params
+    @params   = params
   end
 
   def index
@@ -14,7 +12,7 @@ class UsersController
   end
 
   def show(params)
-    template = File.read(File.join("views/users/show.haml"))
+    template  = File.read(File.join("views/users/show.haml"))
 
     user_name = all_users[params[":id"].to_i - 1]
 
@@ -22,7 +20,7 @@ class UsersController
   end
 
   def new
-    template = File.read(File.join("views/users/new.haml"))
+    template  = File.read(File.join("views/users/new.haml"))
 
     Haml::Engine.new(template).render(binding)
   end
@@ -45,7 +43,7 @@ class UsersController
   end
 
   private
-
+  
   def users
     File.read("users.txt").split("\n")
   end
