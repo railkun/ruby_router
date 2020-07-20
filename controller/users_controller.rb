@@ -6,29 +6,24 @@ class UsersController
   end
 
   def index
-    template  = File.read(File.join("views/users/index.haml"))
-
     users
 
-    Haml::Engine.new(template).render(binding)
+    Haml::Engine.new(template(__method__.to_s)).render(binding)
   end
 
-  def usersshow(params)
-    template  = File.read(File.join("views/users/show.haml"))
-
+  def show(params)
     user_name = all_users[params[":id"].to_i - 1]
 
-    Haml::Engine.new(template).render(binding)
+    Haml::Engine.new(template(__method__.to_s)).render(binding)
   end
 
   def new
-    template  = File.read(File.join("views/users/new.haml"))
-
-    Haml::Engine.new(template).render(binding)
+    Haml::Engine.new(template(__method__.to_s)).render(binding)
   end
 
   def create
     add_users(@params['name'])
+
     index
   end
 
@@ -45,6 +40,10 @@ class UsersController
   end
 
   private
+
+  def template(action)
+    File.read(File.join("views/users/#{action}.haml"))
+  end
 
   def raise_error
     raise Error_401.new 'A token must be passed.'
