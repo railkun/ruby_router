@@ -9,8 +9,8 @@ require 'yaml'
 
 require_relative 'exceptions/controller_not_exist'
 require_relative 'exceptions/action_not_exist'
-require_relative 'exceptions/401'
-require_relative 'exceptions/403'
+require_relative 'exceptions/rename_401'
+require_relative 'exceptions/rename_403'
 
 class App
   def call(env)

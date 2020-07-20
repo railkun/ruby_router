@@ -1,3 +1,5 @@
+require_relative '../service/jwt_auth'
+
 class LoginsController
 
   def initialize(params)
@@ -17,27 +19,13 @@ class LoginsController
     password = @params['password']
 
     if @logins[username.to_sym] == password
-      token(username)
+      JwtAuth.new.token(username)
     else
       'Wrong password or user name'
     end
   end
 
   private
-
-  def token(username)
-    JWT.encode payload(username), 'my$ecretK3y', 'HS256'
-  end
-
-  def payload(username)
-    {
-      exp: Time.now.to_i + 60 * 60,
-      iat: Time.now.to_i,
-      user: {
-        username: username
-      }
-    }
-  end
 
   def template(action)
     File.read(File.join("views/logins/#{action}.haml"))

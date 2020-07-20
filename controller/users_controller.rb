@@ -2,7 +2,7 @@ class UsersController
   def initialize(params)
     @params   = params
 
-    @params['token'] ? decoded_token : raise_error
+    @params['token'] ? JwtAuth.new.decoded_token(@params['token']) : raise_error
   end
 
   def index
@@ -45,19 +45,6 @@ class UsersController
   end
 
   private
-
-  def decoded_token
-    decoded_token = JWT.decode @params['token'], 'my$ecretK3y', true, { algorithm: 'HS256' }
-
-  rescue JWT::DecodeError
-    raise Error_401.new 'A token must be passed.'
-  rescue JWT::ExpiredSignature
-    raise Error_403.new 'The token has expired.'
-  rescue JWT::InvalidIssuerError
-    raise Error_403.new 'The token does not have a valid issuer.'
-  rescue JWT::InvalidIatError
-    raise Error_403.new 'The token does not have a valid "issued at" time.'
-  end
 
   def raise_error
     raise Error_401.new 'A token must be passed.'
