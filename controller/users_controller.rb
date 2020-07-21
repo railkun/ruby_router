@@ -12,7 +12,7 @@ class UsersController
   end
 
   def show(params)
-    user_name = all_users[params[":id"].to_i - 1]
+    user_name = users[params[":id"].to_i - 1]
 
     Haml::Engine.new(template(__method__.to_s)).render(binding)
   end
