@@ -11,7 +11,7 @@ class LoginsController
   end
 
   def new
-    template(__method__.to_s).render(binding)
+    template.render(binding)
   end
 
   def create
@@ -27,7 +27,9 @@ class LoginsController
 
   private
 
-  def template(action)
+  def template
+    action   = caller[0].split("`").pop.gsub("'", "")
+
     template = File.read(File.join("views/logins/#{action}.haml"))
 
     Haml::Engine.new(template)

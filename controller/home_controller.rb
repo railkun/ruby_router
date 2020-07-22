@@ -7,8 +7,16 @@ class HomeController
   end
 
   def index
-    template = File.read(File.join("views/home/index.haml"))
+    template.render(binding)
+  end
 
-    Haml::Engine.new(template).render(binding)
+  private
+
+  def template
+    action   = caller[0].split("`").pop.gsub("'", "")
+
+    template = File.read(File.join("views/home/#{action}.haml"))
+
+    Haml::Engine.new(template)
   end
 end

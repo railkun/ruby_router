@@ -8,17 +8,17 @@ class UsersController
   def index
     users
 
-    template(__method__.to_s).render(binding)
+    template.render(binding)
   end
 
   def show(params)
     user_name = users[params[":id"].to_i - 1]
 
-    template(__method__.to_s).render(binding)
+    template.render(binding)
   end
 
   def new
-    template(__method__.to_s).render(binding)
+    template.render(binding)
   end
 
   def create
@@ -41,7 +41,9 @@ class UsersController
 
   private
 
-  def template(action)
+  def template
+    action   = caller[0].split("`").pop.gsub("'", "")
+
     template = File.read(File.join("views/users/#{action}.haml"))
 
     Haml::Engine.new(template)
