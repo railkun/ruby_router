@@ -2,23 +2,23 @@ class UsersController
   def initialize(params)
     @params   = params
 
-    @params['token'] ? JwtAuth.new.decoded_token(@params['token']) : raise_error
+    @params['token'] ? JwtAuth.decoded_token(@params['token']) : raise_error
   end
 
   def index
     users
 
-    Haml::Engine.new(template(__method__.to_s)).render(binding)
+    template(__method__.to_s).render(binding)
   end
 
   def show(params)
     user_name = users[params[":id"].to_i - 1]
 
-    Haml::Engine.new(template(__method__.to_s)).render(binding)
+    template(__method__.to_s).render(binding)
   end
 
   def new
-    Haml::Engine.new(template(__method__.to_s)).render(binding)
+    template(__method__.to_s).render(binding)
   end
 
   def create
@@ -42,7 +42,9 @@ class UsersController
   private
 
   def template(action)
-    File.read(File.join("views/users/#{action}.haml"))
+    template = File.read(File.join("views/users/#{action}.haml"))
+
+    Haml::Engine.new(template)
   end
 
   def raise_error

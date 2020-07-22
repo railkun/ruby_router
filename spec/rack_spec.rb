@@ -8,7 +8,7 @@ describe App do
   let(:app) { App.new }
   let(:id)  { 1 }
   let(:username) { 'Alex' }
-  let(:token) { JwtAuth.new.token(username) }
+  let(:token) { JwtAuth.token(username) }
 
   context 'get to home page' do
     let(:response) { get '/' }

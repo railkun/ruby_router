@@ -11,7 +11,7 @@ class LoginsController
   end
 
   def new
-    Haml::Engine.new(template(__method__.to_s)).render(binding)
+    template(__method__.to_s).render(binding)
   end
 
   def create
@@ -19,7 +19,7 @@ class LoginsController
     password = @params['password']
 
     if @logins[username.to_sym] == password
-      JwtAuth.new.token(username)
+      JwtAuth.token(username)
     else
       'Wrong password or user name'
     end
@@ -28,6 +28,8 @@ class LoginsController
   private
 
   def template(action)
-    File.read(File.join("views/logins/#{action}.haml"))
+    template = File.read(File.join("views/logins/#{action}.haml"))
+
+    Haml::Engine.new(template)
   end
 end
