@@ -6,6 +6,7 @@ require 'ruby_routes_trie'
 require 'pry'
 require 'yaml'
 
+require_relative 'service/jwt_auth'
 require_relative 'exceptions/controller_not_exist'
 require_relative 'exceptions/action_not_exist'
 require_relative 'exceptions/rename_401'

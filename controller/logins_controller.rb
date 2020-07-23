@@ -1,6 +1,8 @@
-require_relative '../service/jwt_auth'
+require_relative '../service/template'
 
 class LoginsController
+
+  include Template
 
   def initialize(params)
     @params = params
@@ -23,15 +25,5 @@ class LoginsController
     else
       'Wrong password or user name'
     end
-  end
-
-  private
-
-  def template
-    action   = caller[0].split("`").pop.gsub("'", "")
-
-    template = File.read(File.join("views/logins/#{action}.haml"))
-
-    Haml::Engine.new(template)
   end
 end

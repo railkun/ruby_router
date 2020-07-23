@@ -1,6 +1,8 @@
-require 'haml'
+require_relative '../service/template'
 
 class HomeController
+
+  include Template
 
   def initialize(params)
     @params  = params
@@ -8,15 +10,5 @@ class HomeController
 
   def index
     template.render(binding)
-  end
-
-  private
-
-  def template
-    action   = caller[0].split("`").pop.gsub("'", "")
-
-    template = File.read(File.join("views/home/#{action}.haml"))
-
-    Haml::Engine.new(template)
   end
 end

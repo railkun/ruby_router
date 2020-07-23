@@ -1,4 +1,9 @@
+require_relative '../service/template'
+
 class UsersController
+
+  include Template
+
   def initialize(params)
     @params   = params
 
@@ -40,14 +45,6 @@ class UsersController
   end
 
   private
-
-  def template
-    action   = caller[0].split("`").pop.gsub("'", "")
-
-    template = File.read(File.join("views/users/#{action}.haml"))
-
-    Haml::Engine.new(template)
-  end
 
   def raise_error
     raise Error_401.new 'A token must be passed.'
